@@ -1,0 +1,11 @@
+{
+  "name": "Amex",
+  "age": 14,
+  "isX": true,
+  "information": {
+    "github": "@EdamAme-x",
+    "gitlab": null,
+    "twitter": "@amex2189"
+  },
+  "achievement": ["SuperX", true, {}]
+}
