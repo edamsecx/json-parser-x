@@ -55,7 +55,9 @@ suite
   .add("Old JSON Parser", () => {
     old();
   })
-  .add("Self-made Cache JSON Parser", () => {})
+  .add("Self-made Cache JSON Parser", () => {
+    cache();
+  })
   .on("cycle", (event: Event) => {
     console.log(String(event.target));
   })

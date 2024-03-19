@@ -18,8 +18,8 @@ export function jsonParser<T = any>(jsonString: string): T {
 }
 
 export class jsonCacheParser {
-  cache: Map<string, any> = new Map();
-  cacheKeyList: string[] = [];
+  cache: Map<any, any> = new Map();
+  cacheKeyList: any[] = [];
 
   constructor(public maxCacheSize: number = Infinity) {
     if (this.maxCacheSize <= 0) {
@@ -36,19 +36,10 @@ export class jsonCacheParser {
         const firstKey = this.cacheKeyList.shift();
         if (firstKey) this.cache.delete(firstKey);
       }
-      const cacheKey = this.toHash(jsonString);
+      const cacheKey = JSON.stringify(result);
       this.cache.set(cacheKey, result);
       this.cacheKeyList.push(cacheKey);
       return result;
     }
-  }
-
-  toHash(jsonString: string): string {
-    let a = 5381;
-    for (let c = jsonString.length; c--; )
-      (a += jsonString.charCodeAt(c)), (a += a << 10), (a ^= a >> 6);
-    a += a << 3;
-    a ^= a >> 11;
-    return (((a + (a << 15)) & 4294967295) >>> 0).toString(16);
   }
 }
