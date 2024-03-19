@@ -2,10 +2,19 @@
   "name": "json-parser-x",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "test": "bun test",
+    "bench": "bun run ./benchmark/index.ts",
+    "bench:setup": "bun i -D @types/benchmark benchmark flatted"
+  },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/benchmark": "^2.1.5",
+    "@types/bun": "latest",
+    "benchmark": "^2.1.4",
+    "flatted": "^3.3.1"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
-  }
+  },
+  "author": "@EdamAme-x"
 }
