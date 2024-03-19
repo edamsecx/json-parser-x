@@ -40,5 +40,5 @@ suite.on('start', () => {
     console.log(String(event.target))
   }).on('complete', function () {
     // @ts-expect-error
-    console.log(`Fastest is ${this.filter('fastest').map('name')}`)
+    console.log(`[Fastest]\n${this.filter('fastest').map('name').map((name, index) => ` ${index + 1}. ${name}`).join("\n")}\n ...`)
   }).run({ async: true })
