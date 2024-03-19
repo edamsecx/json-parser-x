@@ -41,6 +41,9 @@ export function jsonParser<T = any>(jsonString: string): T {
     expectation: undefined,
     nextchar(step = 1) {
       return jsonString[pointer + step] ?? undefined;
+    },
+    prevchar(step = 1) {
+      return jsonString[pointer - step] ?? undefined;
     }
   };
 
@@ -60,14 +63,41 @@ export function jsonParser<T = any>(jsonString: string): T {
       case "string":
         if (char === '"') {
           // is "" ?
-          const nextchar = guide.nextchar(0);
-          const afternextchar = guide.nextchar(1);
+          const nextchar = guide.nextchar();
+          const afternextchar = guide.nextchar(2);
+          const prevchar = guide.prevchar();
+
+          if (nextchar === '"' && afternextchar === '"') {
+            pointer += 2;
+            break;
+          }
+
           if (nextchar === '"' && afternextchar !== '"') {
+            pointer += 2; // ""(?) <= skip
+            guide.lastchar = '"';
             guide.expectation = undefined;
             break;
-          }else {
-            throw new Error("failed to parse json");
+          }else if (prevchar === '"') {
+            throw new Error("failed to parse string (\"\"...\" <<<) in json");
           }
+
+            // in string
+            let content = "";
+            let i = 0;
+
+            // reading string
+            while (true) {
+              const nextchar = guide.nextchar(i);
+              if (nextchar === undefined) break;
+              content += nextchar;
+              guide.lastchar = nextchar;
+              i++;
+              if (nextchar === '"') break;
+            }
+
+            pointer += i;
+
+            break;
         }
         break;
       default:
@@ -98,4 +128,5 @@ interface Guide {
   set lastchar(char: string | undefined);
   expectation: Types | undefined;
   nextchar(step?: number): string | undefined;
+  prevchar(step?: number): string | undefined;
 }
