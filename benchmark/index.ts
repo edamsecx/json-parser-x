@@ -1,6 +1,7 @@
 import Benchmark from "benchmark";
 import { jsonParser } from "..";
 import { toJSON } from "flatted"; 
+import { OldJSONParser } from "./old";
 
 const suite = new Benchmark.Suite();
 
@@ -28,6 +29,10 @@ const flatted = () => {
     return toJSON(exData);
 }
 
+const old = () => {
+    return OldJSONParser(exData);
+}
+
 suite.on('start', () => {
     console.log('[Benchmark Start]')
   }).add('Naitive JSON Parser', () => {
@@ -36,6 +41,8 @@ suite.on('start', () => {
     self()
   }).add('Flatted JSON Parser', () => {
     flatted()
+  }).add('Old JSON Parser', () => {
+    old()
   }).on('cycle', (event: Event) => {
     console.log(String(event.target))
   }).on('complete', function () {
