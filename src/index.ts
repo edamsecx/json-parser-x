@@ -1,3 +1,4 @@
+import { appraiser } from "./utils/appraiser";
 import { error } from "./utils/error";
 
 /**
@@ -11,12 +12,55 @@ import { error } from "./utils/error";
  * ```
  */
 export function jsonParser<T = any>(jsonString: string): T {
-  if (typeof jsonString !== "string")
-    throw error.JSON_STRING_MUST_BE_STRING();
+  if (typeof jsonString !== "string") throw error.JSON_STRING_MUST_BE_STRING();
+  if (jsonString.length === 0) throw error.JSON_STRING_IS_NOT_EMPTY();
 
-  if (jsonString.length === 0) throw error.JSON_STRING_IS_NOT_EMPTY()
+  let pointer = 0;
 
-  return JSON.parse(jsonString);
+  function* walker(): Generator<string, string, unknown> {
+    while (pointer < jsonString.length) {
+      pointer++;
+      yield jsonString[pointer - 1];
+    }
+
+    return "";
+  }
+
+  const objectParser = () => {
+    const object = {};
+  }
+
+  const nullParser = () => {
+    const walk = walker()
+    const expectedStrings = ["u", "l", "l"];
+    const RealityStrings = ["n"];
+
+    for (let i = 0, len = expectedStrings.length; i < len; i++) {
+      const char = walk.next().value;
+      if (char !== expectedStrings[i]) {
+        throw error.UNKNOWN_VALUE_ERROR(RealityStrings.join(""));
+      }
+      RealityStrings.push(char);
+    }
+
+    return null;
+  }
+
+  const value = () => {
+    for (const char of walker()) {
+      const charType = appraiser(char);
+
+      if (charType === "empty") continue;
+      if (charType === "number") continue;
+      if (charType === "string") continue;
+      if (charType === "boolean") continue;
+      if (charType === "null") return nullParser();
+      if (charType === "array") continue;
+      if (charType === "object") return objectParser();
+    }
+  }
+
+  return value() as T;
 }
 
 export class jsonCacheParser {

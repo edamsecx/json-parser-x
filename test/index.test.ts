@@ -30,7 +30,7 @@ type typeExData = {
 };
 
 describe("Parser works?", () => {
-  it("error case", () => {
+  it("error works", () => {
     const errorDatas = [1, null, false, Promise];
 
     for (const errorData of errorDatas) {
