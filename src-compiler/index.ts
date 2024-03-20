@@ -28,6 +28,3 @@ export function jsonCompiler<T = any>(jsonString: string): T {
 
     return value(syntaxTree) as T;
 }
-// BUILD
-
-console.log(jsonCompiler('{"key": "value", "a": [true,] }'));

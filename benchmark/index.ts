@@ -1,6 +1,7 @@
 import Benchmark from "benchmark";
 import { jsonParser } from "../src-oreilly";
 import { OldJSONParser } from "./old";
+import { jsonCompiler } from "../src-compiler";
 
 const suite = new Benchmark.Suite();
 
@@ -24,6 +25,10 @@ const oreilly = () => {
   return jsonParser(exData);
 };
 
+const compiler = () => {
+  return jsonCompiler(exData);
+}
+
 const old = () => {
   return OldJSONParser(exData);
 };
@@ -40,6 +45,9 @@ suite
   })
   .add("Oreilly Old JSON Parser", () => {
     old();
+  })
+  .add("JSON Compiler", () => {
+    compiler();
   })
   .on("cycle", (event: Event) => {
     console.log(String(event.target));
