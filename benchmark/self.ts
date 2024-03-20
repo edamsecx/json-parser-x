@@ -1,6 +1,6 @@
 import { jsonParser } from "../src";
 
-jsonParser(`{
+jsonParser(JSON.stringify({
     "string": "string",
     "number": 123,
     "boolean": true,
@@ -14,4 +14,4 @@ jsonParser(`{
             {}
         ]
     }
-}`)
+}))
