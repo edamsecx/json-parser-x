@@ -17,7 +17,7 @@ const exData = JSON.stringify({
   achievement: ["SuperX", true, {}],
 });
 
-const naitive = () => {
+const native = () => {
   return JSON.parse(exData);
 };
 
@@ -37,8 +37,8 @@ suite
   .on("start", () => {
     console.log("[Benchmark Start]");
   })
-  .add("Naitive JSON Parser", () => {
-    naitive();
+  .add("Native JSON Parser", () => {
+    native();
   })
   .add("Oreilly JSON Parser", () => {
     oreilly();
