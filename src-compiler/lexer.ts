@@ -10,7 +10,7 @@ export function JSONLexer(jsonString: string): Token[] {
   const back = () => {
     pointer--;
     return jsonString[pointer];
-  }
+  };
 
   const TokensArray: Token[] = [];
 
@@ -28,7 +28,7 @@ export function JSONLexer(jsonString: string): Token[] {
             for (let i = 0; i < 4; i += 1) {
               const hex = parseInt(walker().next().value, 16);
               if (!isFinite(hex)) {
-                back()
+                back();
                 break;
               }
               uhex = uhex * 16 + hex;
@@ -43,17 +43,70 @@ export function JSONLexer(jsonString: string): Token[] {
       }
       TokensArray.push({ type: "String", value });
       continue;
-    } else if (["-", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(char)) {
+    } else if (
+      ["-", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(char)
+    ) {
       let value = "";
       while (true) {
         const char = walker().next().value;
-        if (!["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "e", "E"].includes(char)) {
-            back()
-            break;
+        if (
+          ![
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            ".",
+            "e",
+            "E",
+          ].includes(char)
+        ) {
+          back();
+          break;
         }
         value += char;
       }
       TokensArray.push({ type: "Number", value });
+      continue;
+    }else if (char === "t") {
+      const expectedStrings = ["r", "u", "e"];
+
+      for (let i = 0, len = expectedStrings.length; i < len; i++) {
+        const char = walker().next().value;
+        if (char !== expectedStrings[i]) {
+          throw new Error("Unknown primitive character");
+        }
+      }
+
+      TokensArray.push({ type: "Boolean", value: "true" });
+      continue;
+    } else if (char === "f") {
+      const expectedStrings = ["a", "l", "s", "e"];
+
+      for (let i = 0, len = expectedStrings.length; i < len; i++) {
+        const char = walker().next().value;
+        if (char !== expectedStrings[i]) {
+          throw new Error("Unknown primitive character");
+        }
+      }
+
+      TokensArray.push({ type: "Boolean", value: "false" });
+    } else if (char === "n") {
+      const expectedStrings = ["u", "l", "l"];
+
+      for (let i = 0, len = expectedStrings.length; i < len; i++) {
+        const char = walker().next().value;
+        if (char !== expectedStrings[i]) {
+          throw new Error("Unknown primitive character");
+        }
+      }
+
+      TokensArray.push({ type: "Null", value: "null" });
       continue;
     }
 
@@ -81,7 +134,7 @@ export function JSONLexer(jsonString: string): Token[] {
         // Empty
         break;
       default:
-        throw new Error("Unknown syntax character: " + char);
+        throw new Error("Unknown syntax character");
     }
   }
 
@@ -93,18 +146,36 @@ function escapeStrings(char: string): string {
     case '"':
       return '\\"';
     case "\\":
-      return '\\\\';
+      return "\\\\";
     case "\b":
-      return '\\b';
+      return "\\b";
     case "\f":
-      return '\\f';
+      return "\\f";
     case "\n":
-      return '\\n';
+      return "\\n";
     case "\r":
-      return '\\r';
+      return "\\r";
     case "\t":
-      return '\\t';
+      return "\\t";
     default:
       return char;
   }
 }
+
+const exData = JSON.stringify({
+  string: "string",
+  number: 123,
+  boolean: true,
+  null: null,
+  array: ["string"],
+  object: {
+    key: "value",
+    array: [{}],
+  },
+})
+
+
+const start = performance.now()
+const parsed = JSONLexer(exData)
+const end = performance.now()
+console.log(parsed, end - start + "ms")
