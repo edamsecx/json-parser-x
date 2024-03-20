@@ -1,5 +1,5 @@
 import { it, describe, expect } from "bun:test";
-import { jsonParser } from "../src";
+import { jsonParser } from "../src-oreilly";
 
 const exData = JSON.stringify({
   string: "string",

@@ -1,4 +1,4 @@
-import { jsonParser } from "../src";
+import { jsonParser } from "../src-oreilly";
 
 jsonParser(
   JSON.stringify({

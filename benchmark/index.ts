@@ -1,5 +1,5 @@
 import Benchmark from "benchmark";
-import { jsonParser } from "../src";
+import { jsonParser } from "../src-oreilly";
 import { OldJSONParser } from "./old";
 
 const suite = new Benchmark.Suite();
@@ -20,7 +20,7 @@ const naitive = () => {
   return JSON.parse(exData);
 };
 
-const self = () => {
+const oreilly = () => {
   return jsonParser(exData);
 };
 
@@ -35,10 +35,10 @@ suite
   .add("Naitive JSON Parser", () => {
     naitive();
   })
-  .add("Self-made JSON Parser", () => {
-    self();
+  .add("Oreilly JSON Parser", () => {
+    oreilly();
   })
-  .add("Old JSON Parser", () => {
+  .add("Oreilly Old JSON Parser", () => {
     old();
   })
   .on("cycle", (event: Event) => {

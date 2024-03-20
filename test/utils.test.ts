@@ -1,6 +1,6 @@
 import { it, describe, expect } from "bun:test";
-import { appraiser } from "../src/utils/appraiser";
-import { numberConverter } from "../src/utils/number/converter";
+import { appraiser } from "../src-oreilly/utils/appraiser";
+import { numberConverter } from "../src-oreilly/utils/number/converter";
 
 const exPrefixMaps = {
   '"': "string",

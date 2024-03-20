@@ -166,11 +166,3 @@ function escapeStrings(char: string): string {
       return char;
   }
 }
-
-const exData = `[123,"a",234e+2]`
-
-
-const start = performance.now()
-const parsed = JSONLexer(exData)
-const end = performance.now()
-console.log(parsed, end - start + "ms")
