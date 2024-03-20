@@ -1,7 +1,7 @@
 import { it, describe, expect } from "bun:test";
 import { jsonParser } from "../src";
 
-const exData = `{
+const exData = JSON.stringify({
     "string": "string",
     "number": 123,
     "boolean": true,
@@ -15,7 +15,7 @@ const exData = `{
             {}
         ]
     }
-}`;
+});
 
 type typeExData = {
   string: string;

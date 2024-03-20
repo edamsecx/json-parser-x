@@ -28,8 +28,61 @@ export function jsonParser<T = any>(jsonString: string): T {
     return "";
   }
 
+  const arrayParser = () => {
+    const walk = walker();
+
+    const array: any[] = [];
+    let lastChar = "";
+
+    while (true) {
+      const char = walk.next().value;
+
+      if (char === "]") break;
+      else if (char === "," && lastChar !== ",") continue;
+      else if (char === "," && lastChar === ",")
+        throw error.ARRAY_COMMA_ERROR();
+
+      lastChar = char;
+
+      pointer--;
+      array.push(value());
+    }
+
+    return array;
+  };
+
   const objectParser = () => {
-    const object = {};
+    const walk = walker();
+
+    const object: Record<string, any> = {};
+    let lastChar = "";
+    let key: string | number = "";
+
+    while (true) {
+      const char = walk.next().value;
+
+      if (char === "}") break;
+      else if (char === "," && lastChar !== ",") continue;
+      else if (char === "," && lastChar === ",")
+        throw error.OBJECT_COMMA_ERROR();
+      else if (char === ":" && lastChar !== ":") continue;
+      else if (char === ":" && lastChar === ":")
+        throw error.OBJECT_COMMA_ERROR();
+
+      lastChar = char;
+
+      if (key === "") {
+        pointer--;
+        key = stringParser();
+        continue;
+      } else {
+        pointer--;
+        object[key] = value();
+        key = "";
+      }
+    }
+
+    return object;
   };
 
   const stringParser = () => {
@@ -62,12 +115,12 @@ export function jsonParser<T = any>(jsonString: string): T {
     while (true) {
       const char = walk.next().value;
 
-      numberString += char;
-
       if (!appraiserMaps[1]["prefix"].includes(char as never)) {
         pointer--;
         break;
       }
+
+      numberString += char;
     }
 
     return numberConverter(numberString);
@@ -138,37 +191,10 @@ export function jsonParser<T = any>(jsonString: string): T {
           char as (typeof appraiserMaps)[2]["prefix"][number],
         );
       if (charType === "null") return nullParser();
-      if (charType === "array") continue;
+      if (charType === "array") return arrayParser();
       if (charType === "object") return objectParser();
     }
   };
 
   return value() as T;
-}
-
-export class jsonCacheParser {
-  cache: Map<any, any> = new Map();
-  cacheKeyList: any[] = [];
-
-  constructor(public maxCacheSize: number = Infinity) {
-    if (this.maxCacheSize <= 0) {
-      throw new Error("maxCacheSize must be greater than 0");
-    }
-  }
-
-  parse<T = any>(jsonString: string): T {
-    if (this.cache.has(jsonString)) {
-      return this.cache.get(jsonString);
-    } else {
-      const result = jsonParser<T>(jsonString);
-      if (this.cache.size >= this.maxCacheSize) {
-        const firstKey = this.cacheKeyList.shift();
-        if (firstKey) this.cache.delete(firstKey);
-      }
-      const cacheKey = JSON.stringify(result);
-      this.cache.set(cacheKey, result);
-      this.cacheKeyList.push(cacheKey);
-      return result;
-    }
-  }
 }

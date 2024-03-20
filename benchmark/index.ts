@@ -1,5 +1,5 @@
 import Benchmark from "benchmark";
-import { jsonCacheParser, jsonParser } from "../src";
+import { jsonParser } from "../src";
 import { toJSON } from "flatted";
 import { OldJSONParser } from "./old";
 
@@ -33,12 +33,6 @@ const old = () => {
   return OldJSONParser(exData);
 };
 
-const cacheParser = new jsonCacheParser();
-
-const cache = () => {
-  return cacheParser.parse(exData);
-};
-
 suite
   .on("start", () => {
     console.log("[Benchmark Start]");
@@ -54,9 +48,6 @@ suite
   })
   .add("Old JSON Parser", () => {
     old();
-  })
-  .add("Self-made Cache JSON Parser", () => {
-    cache();
   })
   .on("cycle", (event: Event) => {
     console.log(String(event.target));
