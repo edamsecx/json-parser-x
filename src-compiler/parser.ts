@@ -13,12 +13,18 @@ export function JSONParser(tokens: Tokens): SyntaxTree {
         return null;
     }
 
+    const back = () => {
+        pointer--;
+        return tokens[pointer];
+    }
+
     const arrayParser = (): ArrayChildren => {
         const array: ArrayChildren = [];
 
         for (const token of walker()) {
             if (token.type === "Comma") continue;
             if (token.type === "RightBracket") break;
+            back();
             array.push(valueParser());
         }
 
@@ -42,6 +48,7 @@ export function JSONParser(tokens: Tokens): SyntaxTree {
                 }
                 continue;
             }else {
+                back();
                 object[KeyName] = valueParser();
                 KeyName = "";
                 continue;
@@ -70,7 +77,7 @@ export function JSONParser(tokens: Tokens): SyntaxTree {
             } else if (token.type === "Boolean") {
                 return {
                     type: "Boolean",
-                    children: token.value === "true" ? true : false
+                    children: token.value === "true"
                 };
             } else if (token.type === "Null") {
                 return {
@@ -95,13 +102,3 @@ export function JSONParser(tokens: Tokens): SyntaxTree {
 
     return valueParser();
 }
-
-const ex = `{
-  "name": "John",
-  "age": 30,
-  "city": "New York",
-  "hasChildren": false,
-  "titles": ["engineer", "manager"]
-}`
-
-console.log(JSONParser(JSONLexer(ex)));
