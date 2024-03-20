@@ -95,15 +95,15 @@ export function jsonParser<T = any>(jsonString: string): T {
       if (char === "\\") {
         const nextChar = walk.next().value;
         if (nextChar === "u") {
-          let uffff = 0;
+          let uhex = 0;
           for (let i = 0; i < 4; i += 1) {
             const hex = parseInt(walk.next().value, 16);
             if (!isFinite(hex)) {
               break;
             }
-            uffff = uffff * 16 + hex;
+            uhex = uhex * 16 + hex;
           }
-          string += String.fromCharCode(uffff);
+          string += String.fromCharCode(uhex);
         } else {
           string += escapeStrings(nextChar);
         }
