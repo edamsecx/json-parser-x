@@ -19,8 +19,8 @@ const exNumberMaps = {
   "-123": -123,
   "123": 123,
   "12e+3": 12e3,
-  "12E+3": 12E3,
-}
+  "12E+3": 12e3,
+};
 
 describe("utils works?", () => {
   it("appraiser works?", () => {
@@ -37,5 +37,5 @@ describe("utils works?", () => {
     for (const [key, value] of Object.entries(exNumberMaps)) {
       expect(numberConverter(key)).toBe(value);
     }
-  })
+  });
 });

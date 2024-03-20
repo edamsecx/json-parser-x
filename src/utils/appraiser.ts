@@ -1,33 +1,40 @@
 import { error } from "./error";
 
+export const appraiserMaps = [
+  {
+    prefix: ['"'],
+    type: "string",
+  },
+  {
+    prefix: ["-", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    type: "number",
+  },
+  {
+    prefix: ["t", "f"],
+    type: "boolean",
+  },
+  {
+    prefix: ["n"],
+    type: "null",
+  },
+  {
+    prefix: ["["],
+    type: "array",
+  },
+  {
+    prefix: ["{"],
+    type: "object",
+  },
+  {
+    prefix: [" "],
+    type: "empty",
+  },
+] as const;
+
 export function appraiser<T>(prefix: string): JsonTypes | Empty {
-  switch (prefix) {
-    case '"':
-      return "string";
-    case "-":
-    case "0":
-    case "1":
-    case "2":
-    case "3":
-    case "4":
-    case "5":
-    case "6":
-    case "7":
-    case "8":
-    case "9":
-      return "number";
-    case "t":
-    case "f":
-      return "boolean";
-    case "n":
-      return "null";
-    case "[":
-      return "array";
-    case "{":
-      return "object";
-    case " ":
-      return "empty";
-    default:
-      throw error.UNKNOWN_VALUE_ERROR(prefix);
+  for (const appraiserMap of appraiserMaps) {
+    if (appraiserMap.prefix.includes(prefix as never)) return appraiserMap.type;
   }
+
+  throw error.UNKNOWN_VALUE_ERROR(prefix);
 }
