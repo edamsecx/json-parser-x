@@ -1,6 +1,7 @@
 # json-parser-x
 
-Standard JSON Parser with TypeScript | for Zenn
+JSON Parser with TypeScript | for Zenn
+! Note that it does not follow strict specifications. !
 
 [Standard JSON Parser (o'reilly version)](/src-oreilly)
 [JSON Lexer](/src-lexer)
