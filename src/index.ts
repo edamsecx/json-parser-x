@@ -1,3 +1,5 @@
+import { error } from "./utils/error";
+
 /**
  * this function is used to parse json string to object.
  * @param jsonString
@@ -10,9 +12,9 @@
  */
 export function jsonParser<T = any>(jsonString: string): T {
   if (typeof jsonString !== "string")
-    throw new Error("jsonString must be a string");
+    throw error.JSON_STRING_MUST_BE_STRING();
 
-  if (jsonString.length === 0) throw new Error("jsonString is empty");
+  if (jsonString.length === 0) throw error.JSON_STRING_IS_NOT_EMPTY()
 
   return JSON.parse(jsonString);
 }
