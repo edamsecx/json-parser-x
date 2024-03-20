@@ -1,21 +1,22 @@
 import Benchmark from "benchmark";
 import { jsonParser } from "../src";
-import { toJSON } from "flatted";
 import { OldJSONParser } from "./old";
 
 const suite = new Benchmark.Suite();
 
-const exData = JSON.stringify({
-  name: "Amex",
-  age: 14,
-  isX: true,
-  information: {
-    github: "@EdamAme-x",
-    gitlab: null,
-    twitter: "@amex2189",
-  },
-  achievement: ["SuperX", true, {}],
-});
+// const exData = JSON.stringify({
+//   name: "Amex",
+//   age: 14,
+//   isX: true,
+//   information: {
+//     github: "@EdamAme-x",
+//     gitlab: null,
+//     twitter: "@amex2189",
+//   },
+//   achievement: ["SuperX", true, {}],
+// });
+
+const exData = `[1,2,3]`
 
 const naitive = () => {
   return JSON.parse(exData);
@@ -23,10 +24,6 @@ const naitive = () => {
 
 const self = () => {
   return jsonParser(exData);
-};
-
-const flatted = () => {
-  return toJSON(exData);
 };
 
 const old = () => {
@@ -42,9 +39,6 @@ suite
   })
   .add("Self-made JSON Parser", () => {
     self();
-  })
-  .add("Flatted JSON Parser", () => {
-    flatted();
   })
   .add("Old JSON Parser", () => {
     old();
