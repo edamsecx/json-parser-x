@@ -16,8 +16,8 @@ High self-correction capability
 |Name|Description|Strict|Speed|
 |---|---|---|---|
 |Native|Native JSON Parser|✅|✅|
-|Old Oreilly|Old O'reilly JSON Parser|❌|🔼|
-|Oreilly|O'reilly JSON Parser|🔼|🔼|
+|Old Oreilly|Old O'reilly JSON Parser|❌|🔼 +|
+|Oreilly|O'reilly JSON Parser|🔼 +|🔼 -|
 |Compiler|JSON Compiler|✅|❌|
 
 Created by [@amex2189](https:///twitter.com/amex2189)
