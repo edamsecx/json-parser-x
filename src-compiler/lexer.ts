@@ -15,8 +15,6 @@ export function JSONLexer(jsonString: string): Token[] {
   const TokensArray: Token[] = [];
 
   for (const char of walker()) {
-    // Skip Spaces
-    if (char === " ") continue;
     // Primitive Reading
     if (char === '"') {
       let value = "";
@@ -102,6 +100,7 @@ export function JSONLexer(jsonString: string): Token[] {
       }
 
       TokensArray.push({ type: "Boolean", value: "false" });
+      continue;
     } else if (char === "n") {
       const expectedStrings = ["u", "l", "l"];
 
@@ -122,7 +121,7 @@ export function JSONLexer(jsonString: string): Token[] {
         TokensArray.push({ type: "LeftBrace", value: char });
         break;
       case "}":
-        TokensArray.push({ type: "rightBrace", value: char });
+        TokensArray.push({ type: "RightBrace", value: char });
         break;
       case "[":
         TokensArray.push({ type: "LeftBracket", value: char });
@@ -135,6 +134,10 @@ export function JSONLexer(jsonString: string): Token[] {
         break;
       case ":":
         TokensArray.push({ type: "Colon", value: char });
+        break;
+      case " ":
+      case "\t":
+      case "\n":
         break;
       default:
         throw new Error("Unknown syntax character");

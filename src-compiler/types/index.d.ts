@@ -6,7 +6,7 @@ type PrimitiveTokenTypes =
 
 type SyntaxTokenTypes =
   | "LeftBrace" // "{"
-  | "rightBrace" // "}"
+  | "RightBrace" // "}"
   | "LeftBracket" // "["
   | "RightBracket" // "]"
   | "Comma" // ","
