@@ -1,6 +1,6 @@
 # json-parser-x
 
-JSON Parser with TypeScript | for Zenn
+JSON Parser with TypeScript | for Zenn  
 ! Note that it does not follow strict specifications. !
 
 [JSON Parse (o'reilly version)](/src-oreilly)
