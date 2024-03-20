@@ -13,7 +13,7 @@ JSON Compiler Lexer & Parser
 String => Tokens => Syntax Tree => JSON  
 High self-correction capability
 
-|Name|Description|Strict|Speed|self-fix|
+|Name|Description|Strict|Speed|Self-fix|
 |---|---|---|---|---|
 |Native|Native JSON Parser|✅|✅|❌|
 |Old Oreilly|Old O'reilly JSON Parser|❌|🔼 +|🔼 +|
