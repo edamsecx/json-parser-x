@@ -94,7 +94,19 @@ export function jsonParser<T = any>(jsonString: string): T {
 
       if (char === "\\") {
         const nextChar = walk.next().value;
-        string += escapeStrings(nextChar);
+        if (nextChar === "u") {
+          let uffff = 0;
+          for (let i = 0; i < 4; i += 1) {
+            const hex = parseInt(walk.next().value, 16);
+            if (!isFinite(hex)) {
+              break;
+            }
+            uffff = uffff * 16 + hex;
+          }
+          string += String.fromCharCode(uffff);
+        } else {
+          string += escapeStrings(nextChar);
+        }
         continue;
       } else if (char === '"') {
         break;

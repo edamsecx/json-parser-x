@@ -2,19 +2,15 @@ import { it, describe, expect } from "bun:test";
 import { jsonParser } from "../src";
 
 const exData = JSON.stringify({
-    "string": "string",
-    "number": 123,
-    "boolean": true,
-    "null": null,
-    "array": [
-        "string"
-    ],
-    "object": {
-        "key": "value",
-        "array": [
-            {}
-        ]
-    }
+  string: "string",
+  number: 123,
+  boolean: true,
+  null: null,
+  array: ["string"],
+  object: {
+    key: "value",
+    array: [{}],
+  },
 });
 
 type typeExData = {
