@@ -3,12 +3,15 @@
 JSON Parser with TypeScript | for Zenn  
 ! Note that it does not follow strict specifications. !
 
-[JSON Parse (o'reilly version)](/src-oreilly)
-Standard self-recursion parser
-String => Split String (Token) => JSON
-[JSON Lexer & JSON Parser (JSON Compiler)](/src-lexer)
-JSON Compiler Lexer & Parser
-String => Tokens => Syntax Tree => JSON
+[JSON Parse (o'reilly version)](/src-oreilly)  
+Standard self-recursion parser  
+String => Split String (Raw String Tokens) => JSON  
+Vulnerable to collapsed json
+
+[JSON Lexer & JSON Parser (JSON Compiler)](/src-lexer)  
+JSON Compiler Lexer & Parser  
+String => Tokens => Syntax Tree => JSON  
+High self-correction capability
 
 |Name|Description|Strict|Speed|
 |---|---|---|---|
