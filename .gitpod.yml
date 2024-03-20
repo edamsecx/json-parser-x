@@ -5,4 +5,4 @@
 # Learn more from ready-to-use templates: https://www.gitpod.io/docs/introduction/getting-started/quickstart
 
 tasks:
-  - init: bun install && bun run bench:setup
+  - init: npm i -g bun && bun install && bun run bench:setup

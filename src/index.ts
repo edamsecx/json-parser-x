@@ -99,6 +99,7 @@ export function jsonParser<T = any>(jsonString: string): T {
           for (let i = 0; i < 4; i += 1) {
             const hex = parseInt(walk.next().value, 16);
             if (!isFinite(hex)) {
+              pointer--;
               break;
             }
             uhex = uhex * 16 + hex;
