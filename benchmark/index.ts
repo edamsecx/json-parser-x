@@ -4,19 +4,17 @@ import { OldJSONParser } from "./old";
 
 const suite = new Benchmark.Suite();
 
-// const exData = JSON.stringify({
-//   name: "Amex",
-//   age: 14,
-//   isX: true,
-//   information: {
-//     github: "@EdamAme-x",
-//     gitlab: null,
-//     twitter: "@amex2189",
-//   },
-//   achievement: ["SuperX", true, {}],
-// });
-
-const exData = `[1,2,3]`
+const exData = JSON.stringify({
+  name: "Amex",
+  age: 14,
+  isX: true,
+  information: {
+    github: "@EdamAme-x",
+    gitlab: null,
+    twitter: "@amex2189",
+  },
+  achievement: ["SuperX", true, {}],
+});
 
 const naitive = () => {
   return JSON.parse(exData);
