@@ -1,5 +1,5 @@
 import Benchmark from "benchmark";
-import { jsonCacheParser, jsonParser } from "..";
+import { jsonCacheParser, jsonParser } from "../src";
 import { toJSON } from "flatted";
 import { OldJSONParser } from "./old";
 

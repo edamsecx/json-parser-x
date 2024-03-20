@@ -1,5 +1,5 @@
 import { it, describe, expect } from "bun:test";
-import { jsonParser } from "..";
+import { jsonParser } from "../src";
 
 const exData = `{
     "string": "string",
