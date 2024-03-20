@@ -15,6 +15,8 @@ export function JSONLexer(jsonString: string): Token[] {
   const TokensArray: Token[] = [];
 
   for (const char of walker()) {
+    // Skip Spaces
+    if (char === " ") continue;
     // Primitive Reading
     if (char === '"') {
       let value = "";
@@ -46,7 +48,7 @@ export function JSONLexer(jsonString: string): Token[] {
     } else if (
       ["-", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(char)
     ) {
-      let value = "";
+      let value = char;
       while (true) {
         const char = walker().next().value;
         if (
@@ -64,9 +66,13 @@ export function JSONLexer(jsonString: string): Token[] {
             ".",
             "e",
             "E",
+            "+",
+            "-",
           ].includes(char)
         ) {
-          back();
+          if (char !== "") {
+            back();
+          }
           break;
         }
         value += char;
@@ -130,9 +136,6 @@ export function JSONLexer(jsonString: string): Token[] {
       case ":":
         TokensArray.push({ type: "Colon", value: char });
         break;
-      case " ":
-        // Empty
-        break;
       default:
         throw new Error("Unknown syntax character");
     }
@@ -143,36 +146,28 @@ export function JSONLexer(jsonString: string): Token[] {
 
 function escapeStrings(char: string): string {
   switch (char) {
-    case '"':
-      return '\\"';
+    case "\"":
+      return '\"';
     case "\\":
-      return "\\\\";
-    case "\b":
-      return "\\b";
-    case "\f":
-      return "\\f";
-    case "\n":
-      return "\\n";
-    case "\r":
-      return "\\r";
-    case "\t":
-      return "\\t";
+      return "\\";
+    case "/":
+      return "/";
+    case "b":
+      return "\b";
+    case "f":
+      return "\f";
+    case "n":
+      return "\n";
+    case "r":
+      return "\r";
+    case "t":
+      return "\t";
     default:
       return char;
   }
 }
 
-const exData = JSON.stringify({
-  string: "string",
-  number: 123,
-  boolean: true,
-  null: null,
-  array: ["string"],
-  object: {
-    key: "value",
-    array: [{}],
-  },
-})
+const exData = `[123,"a",234e+2]`
 
 
 const start = performance.now()
